@@ -6,7 +6,7 @@ import Code.feature_extraction as ft
 from Code.mfcc_talkbox import mfcc
 
 # Path to video file to analyse 
-video = '../Videos/video_07.mp4'
+video = '/Users/pd/PycharmProjects/MA_Labs/mma-lab/Videos/video_07.mp4'
 
 # starting point
 S = 0  # seconds
@@ -14,7 +14,7 @@ S = 0  # seconds
 E = 1  # seconds
 
 # Retrieve frame count. We need to add one to the frame count because cv2 somehow 
-# has one extra frame compared to the number returned by avprobe.
+# has one extra frame compared to the number returned by ffprobe.
 frame_count = video_tools.get_frame_count(video) + 1
 frame_rate = video_tools.get_frame_rate(video)
 
@@ -27,12 +27,12 @@ prev_frame = None
 # set video capture object to specific point in time
 cap.set(cv2.CAP_PROP_POS_MSEC, S * 1000)
 
-while (cap.isOpened() and cap.get(cv2.CAP_PROP_POS_MSEC) < (E * 1000)):
+while cap.isOpened() and cap.get(cv2.CAP_PROP_POS_MSEC) < (E * 1000):
 
     # 
     retVal, frame = cap.read()
     # 
-    if retVal == False:
+    if not retVal:
         break
 
     # == Do your processing here ==#

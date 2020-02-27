@@ -12,7 +12,7 @@ import Code.feature_extraction as ft
 from scipy.io.wavfile import read
 from Code.video_tools import *
 from Code.video_features import *
-import Code.db_index_video as db_index_video
+import Code.db_index_video
 
 
 def create_database():
@@ -48,7 +48,7 @@ def create_database():
         sys.exit(0)
 
     # Create indexer which can create the database tables and provides an API to insert data into the tables.
-    indx = db_index_video.Indexer(db_name)
+    indx = Code.db_index_video.Indexer(db_name)
     if new == True:
         indx.create_tables()
 
@@ -84,7 +84,7 @@ def process_videos(video_list, indx):
         frame_nbr = 0
         while (cap.isOpened()):
             ret, frame = cap.read()
-            if frame == None:
+            if not ret:
                 break
             audio_frame = frame_to_audio(frame_nbr, frame_rate, fs, wav_data)
 
@@ -96,14 +96,14 @@ def process_videos(video_list, indx):
                 mfccs.append(ceps)
 
             # calculate sum of differences
-            if not prev_frame == None:
+            if not prev_frame is None:
                 tdiv = temporal_diff(prev_frame, frame, 10)
                 # diff = np.absolute(prev_frame - frame)
                 # sum = np.sum(diff.flatten()) / (diff.shape[0]*diff.shape[1]*diff.shape[2])
                 sum_of_differences.append(tdiv)
             colorhist = ft.colorhist(frame)
             colorhists.append(colorhist)
-            if not prev_colorhist == None:
+            if not prev_colorhist is None:
                 ch_diff = colorhist_diff(prev_colorhist, colorhist)
                 colorhist_diffs.append(ch_diff)
             prev_colorhist = colorhist
@@ -145,3 +145,4 @@ for type_ in video_types:
 # create database
 indx = create_database()
 process_videos(video_list, indx)
+
