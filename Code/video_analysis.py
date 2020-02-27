@@ -3,7 +3,7 @@ import cv2
 import matplotlib.pyplot as plt
 import Code.video_tools as video_tools
 import Code.feature_extraction as ft
-from scikits.talkbox.features import mfcc
+from Code.mfcc_talkbox import mfcc
 
 # Path to video file to analyse 
 video = '../Videos/video_07.mp4'
