@@ -32,7 +32,8 @@ def get_frame_count(video, util='ffprobe'):
     info = video_info(video, util)
     pattern = b'codec_type\=video.*?nb_frames\=([0-9]+)'
     result = re.search(pattern, info, re.DOTALL)
-    result = result.decode('utf-8')
+    # print(result)
+    # result = result.decode('utf-8')
     return int(result.group(1))
 
 

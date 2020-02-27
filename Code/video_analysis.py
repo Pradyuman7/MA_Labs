@@ -39,6 +39,7 @@ while cap.isOpened() and cap.get(cv2.CAP_PROP_POS_MSEC) < (E * 1000):
 
     #
     cv2.imshow('Video', frame)
+    cv2.waitKey()
 
     #
     if cv2.waitKey(1) & 0xFF == ord('q'):
